@@ -19,4 +19,6 @@ output "IP_elasticsearch" {
   
 }
 
-
+output "private_subnet_id" {
+  value = module.subnet.private_subnet_id
+}

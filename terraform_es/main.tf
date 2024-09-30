@@ -18,6 +18,7 @@ module "subnet" {
   az                  = "us-east-1a"
 }
 
+
 # NAT Gateway Module
 module "nat_gateway" {
   source          = "./modules/nat_gateway"
