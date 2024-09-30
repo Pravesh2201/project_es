@@ -110,7 +110,7 @@ pipeline {
                         }
                         
                         sh '''
-                        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory playbook.yml
+                        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory /var/lib/jenkins/workspace/project_es/playbook.yml
                         '''
                     }
                 }
