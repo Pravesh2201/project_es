@@ -1,0 +1,130 @@
+---
+- name: Ensure wget is installed
+  package:
+    name: wget
+    state: present
+
+- name: Add Elasticsearch GPG key (Debian)
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+    keyring: /usr/share/keyrings/elasticsearch-keyring.gpg
+  when: ansible_os_family == "Debian"
+
+- name: Add Elasticsearch GPG key (RedHat)
+  rpm_key:
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  when: ansible_os_family == "RedHat"
+
+- name: Install apt-transport-https (Debian)
+  apt:
+    name: apt-transport-https
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Add Elasticsearch APT Repository (Debian)
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main"
+    state: present
+    filename: elastic-8.x
+  when: ansible_os_family == "Debian"
+
+- name: Add Elasticsearch YUM Repository (RedHat)
+  yum_repository:
+    name: elasticsearch
+    description: Elasticsearch repository for {{ ansible_distribution }}
+    baseurl: "https://artifacts.elastic.co/packages/8.x/yum"
+    gpgcheck: 1
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    enabled: 1
+  when: ansible_os_family == "RedHat"
+
+- name: Install Elasticsearch (Debian)
+  apt:
+    name: elasticsearch
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install Elasticsearch (RedHat)
+  yum:
+    name: elasticsearch
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install Kibana and Logstash (Debian)
+  apt:
+    name:
+      - kibana
+      - logstash
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install Kibana and Logstash (RedHat)
+  yum:
+    name:
+      - kibana
+      - logstash
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Template kibana.yml
+  template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+    mode: '0644'  
+
+- name: Template elasticsearch.yml
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    mode: '0644'
+
+- name: Start Elasticsearch service (Debian)
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: yes
+  when: ansible_os_family == "Debian"
+
+- name: Start Elasticsearch service (RedHat)
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Start Kibana service (Debian)
+  systemd:
+    name: kibana
+    state: started
+    enabled: yes
+  when: ansible_os_family == "Debian"
+
+- name: Start Kibana service (RedHat)
+  systemd:
+    name: kibana
+    state: started
+    enabled: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Check Elasticsearch and Kibana service status (Debian)
+  command: systemctl status {{ item }}
+  with_items:
+    - elasticsearch
+    - kibana
+  register: service_status
+  ignore_errors: yes
+  when: ansible_os_family == "Debian"
+
+- name: Check Elasticsearch and Kibana service status (RedHat)
+  command: systemctl status {{ item }}
+  with_items:
+    - elasticsearch
+    - kibana
+  register: service_status
+  ignore_errors: yes
+  when: ansible_os_family == "RedHat"
+
+

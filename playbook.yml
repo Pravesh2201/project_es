@@ -1,0 +1,8 @@
+---
+- hosts: bastion
+  roles:
+    - nginx
+
+- hosts: elasticsearch
+  roles:
+    - elasticsearch_kibana

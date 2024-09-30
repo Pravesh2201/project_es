@@ -1,0 +1,23 @@
+- name: Install Nginx
+  package:
+    name: nginx
+    state: present
+
+- name: Start and enable Nginx service
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Deploy Nginx proxy configuration
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/kibana_elasticsearch_proxy.conf
+  notify: Restart Nginx
+
+- name: Create a symlink for Nginx proxy configuration
+  file:
+    src: /etc/nginx/sites-available/kibana_elasticsearch_proxy.conf
+    dest: /etc/nginx/sites-enabled/kibana_elasticsearch_proxy.conf
+    state: link
+  notify: Restart Nginx  # This will ensure Nginx is restarted after creating the symlink

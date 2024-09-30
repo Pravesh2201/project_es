@@ -1,0 +1,7 @@
+---
+elasticsearch_version: "8.x"
+kibana_version: "8.x"
+elasticsearch_repo_url_deb: "https://artifacts.elastic.co/packages/{{ elasticsearch_version }}/apt"
+elasticsearch_repo_url_rpm: "https://artifacts.elastic.co/packages/{{ elasticsearch_version }}/yum"
+elasticsearch_gpg_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+
