@@ -4,8 +4,3 @@ variable "key_name" {
   default = "AWS"
 }
 
-variable "associate_public_ip_address" {
-  type = bool
-  default = true
-  
-}
