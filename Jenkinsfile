@@ -93,7 +93,7 @@ pipeline {
                     }
                     
                     steps {
-                        dir('elasticsearch') {
+                        dir('project_es') {
                             script {
                         def bastionIp = readFile('terraform_es/bastion_ip.txt').trim()
                         def elasticsearchIp = readFile('terraform_es/elasticsearch_ip.txt').trim()
