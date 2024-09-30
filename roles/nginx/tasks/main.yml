@@ -22,9 +22,6 @@
 #     state: link
 #   notify: Restart Nginx  # This will ensure Nginx is restarted after creating the symlink
 
-
-- hosts: your_nginx_server
-  tasks:
     - name: Update apt cache
       apt:
         update_cache: yes
