@@ -12,3 +12,9 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+resource "aws_route" "peer_route" {
+  count                   = var.peer_cidr_block != "" ? 1 : 0  # Only create if peer CIDR is provided
+  route_table_id         = aws_route_table.main.id
+  destination_cidr_block = var.peer_cidr_block
+  vpc_peering_connection_id = var.vpc_peering_connection_id
+}

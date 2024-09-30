@@ -56,3 +56,17 @@ module "ec2" {
 }
 
 
+# Existing VPC ID
+locals {
+  existing_vpc_id = "vpc-0732d3359818e4597"
+}
+
+# VPC Peering Module
+
+module "vpc_peering" {
+  source = "./modules/vpc_peering"
+  vpc_id = local.existing_vpc_id
+  peer_vpc_id = module.vpc.vpc_id
+  peering_name = "vpc-peer"
+  
+}
