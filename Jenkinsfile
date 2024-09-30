@@ -95,41 +95,23 @@ pipeline {
                 steps {
                     dir('project_es') {
 
+
                         script {
-                // Reading the correct file path for bastion and elasticsearch IPs
-                def bastionIp = readFile('../terraform_es/bastion_ip.txt').trim()
-                def elasticsearchIp = readFile('../terraform_es/elasticsearch_ip.txt').trim()
-
-                // Dynamically creating the inventory file with the correct IP addresses
-                writeFile file: 'inventory', text: """
-                [bastion]
-                ${bastionIp} ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
-                [elasticsearch]
-                ${elasticsearchIp} ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
-                """
-
-                // Copying files to bastion server
-                sh """
-                // scp -i /var/lib/jenkins/AWS.pem ../terraform_es/elasticsearch_ip.txt ubuntu@${bastionIp}:/home/ubuntu/
-                // scp -i /var/lib/jenkins/AWS.pem ../terraform_es/bastion_ip.txt ubuntu@${bastionIp}:/home/ubuntu/
-                scp -i /var/lib/jenkins/AWS.pem /var/lib/jenkins/AWS.pem ubuntu@${bastionIp}:/home/ubuntu/
-                ssh -i /var/lib/jenkins/AWS.pem ubuntu@${bastionIp} 'sudo chmod 400 /home/ubuntu/AWS.pem'
-                """
-            }
-                        // script {
-                        //     // Reading the correct file path for bastion and elasticsearch IPs
-                        //     def bastionIp = readFile('../terraform_es/bastion_ip.txt').trim()
-                        //     def elasticsearchIp = readFile('../terraform_es/elasticsearch_ip.txt').trim()
-                        //     // Dynamically creating the inventory file with the correct IP addresses
-                        //     writeFile file: 'inventory', text: """
+                            // Reading the correct file path for bastion and elasticsearch IPs
+                            def bastionIp = readFile('../terraform_es/bastion_ip.txt').trim()
+                            def elasticsearchIp = readFile('../terraform_es/elasticsearch_ip.txt').trim()
+                            // Dynamically creating the inventory file with the correct IP addresses
+                            writeFile file: 'inventory', text: """
                             
-                        //     [bastion]
+                            [bastion]
                             
-                        //     ${bastionIp} ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
-                        //     [elasticsearch]
-                        //     ${elasticsearchIp} ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
-                        //     """
-                        // }
+                            ${bastionIp} ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
+                            [elasticsearch]
+                            ${elasticsearchIp} ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
+                            scp -i /var/lib/jenkins/AWS.pem /var/lib/jenkins/AWS.pem ubuntu@${bastionIp}:/home/ubuntu/
+                            ssh -i /var/lib/jenkins/AWS.pem ubuntu@${bastionIp} 'sudo chmod 400 /home/ubuntu/AWS.pem'
+                            """
+                        }
                         
                         sh '''
                         ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory /var/lib/jenkins/workspace/project_es/playbook.yml
