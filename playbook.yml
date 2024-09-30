@@ -1,8 +1,10 @@
 ---
 - hosts: bastion
+  become: true
   roles:
     - nginx
 
 - hosts: elasticsearch
+  become: true
   roles:
     - elasticsearch_kibana
