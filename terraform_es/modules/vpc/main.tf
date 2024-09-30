@@ -12,7 +12,6 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-
 # Use existing private route table
 
 resource "aws_route" "peer_route" {
@@ -24,7 +23,7 @@ resource "aws_route" "peer_route" {
 
 # Other resources, including the existing route table associations
 resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet_id
+  subnet_id      = aws_subnet.private_subnet.id
   route_table_id = aws_route_table.private_rt.id
 }
 
