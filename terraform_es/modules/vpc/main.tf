@@ -21,11 +21,14 @@ resource "aws_route" "peer_route" {
   vpc_peering_connection_id = var.vpc_peering_connection_id
 }
 
-# Other resources, including the existing route table associations
-resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = aws_route_table.private_rt.id
-}
+# # Other resources, including the existing route table associations
+# resource "aws_route_table_association" "private_subnet_association" {
+#   # subnet_id      = aws_subnet.private_subnet.id
+#   subnet_id = aws_subnet.private_subnet_id
+#   route_table_id = aws_route_table.private_rt.id
+# }
+
+
 
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.main.id
