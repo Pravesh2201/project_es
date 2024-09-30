@@ -2,13 +2,13 @@
 server {
 
     listen 80;
-    server_name {{ ansible_fqdn }}  # Replace with your actual public IP or domain
+    server_name {{ bastionIp }};  # Replace with your actual public IP or domain
 
     # Proxy for Kibana (port 5601)
 
     location /kibana/ {
 
-        proxy_pass http:{{ private_server_ip }}:5601;
+        proxy_pass http:{{ elasticsearchIp }}:5601;
 
         proxy_set_header Host $host;
 
@@ -42,7 +42,7 @@ server {
 
     location /elasticsearch/ {
 
-        proxy_pass http:{{ private_server_ip }}:9200/;
+        proxy_pass http:{{ elasticsearchIp }}:9200/;
 
         proxy_set_header Host $host;
 
