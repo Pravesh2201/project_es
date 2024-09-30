@@ -96,8 +96,8 @@ pipeline {
                     steps {
                         dir('project_es') {
                             script {
-                        def bastionIp = readFile('bastion_ip.txt').trim()
-                        def elasticsearchIp = readFile('elasticsearch_ip.txt').trim()
+                        def bastionIp = readFile('project_es/bastion_ip.txt').trim()
+                        def elasticsearchIp = readFile('project_es/elasticsearch_ip.txt').trim()
                         
                         writeFile file: 'inventory', text: """
                         [bastion]
