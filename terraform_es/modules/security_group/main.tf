@@ -20,10 +20,10 @@ resource "aws_security_group" "public_sg" {
   }
 
   ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # HTTPS access from anywhere
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow all outbound traffic
   }
 
   egress {
@@ -49,6 +49,12 @@ resource "aws_security_group" "private_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]  # Allow SSH from within the VPC
+  }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow all outbound traffic
   }
 
   egress {
