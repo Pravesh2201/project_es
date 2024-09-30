@@ -1,9 +1,3 @@
-#[bastion]
-#<IP_Public_Bastion> ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
-
-#[elasticsearch]
-#<IP_elasticsearch> ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
-
 [bastion]
 ${bastionIp} ansible_ssh_private_key_file=/var/lib/jenkins/AWS.pem ansible_user=ubuntu
 [elasticsearch]
