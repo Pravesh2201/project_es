@@ -37,17 +37,17 @@
         state: started
         enabled: yes
 
-    - name: Deploy Nginx proxy configuration
-      template:
-        src: nginx.conf.j2
-        dest: /etc/nginx/sites-available/kibana_elasticsearch_proxy.conf
-      notify: Restart Nginx
+    # - name: Deploy Nginx proxy configuration
+    #   template:
+    #     src: nginx.conf.j2
+    #     dest: /etc/nginx/sites-available/kibana_elasticsearch_proxy.conf
+    #   notify: Restart Nginx
 
-    - name: Create a symlink for Nginx proxy configuration
-      file:
-        src: /etc/nginx/sites-available/kibana_elasticsearch_proxy.conf
-        dest: /etc/nginx/sites-enabled/kibana_elasticsearch_proxy.conf
-        state: link
+    # - name: Create a symlink for Nginx proxy configuration
+    #   file:
+    #     src: /etc/nginx/sites-available/kibana_elasticsearch_proxy.conf
+    #     dest: /etc/nginx/sites-enabled/kibana_elasticsearch_proxy.conf
+    #     state: link
       notify: Restart Nginx
 
 
