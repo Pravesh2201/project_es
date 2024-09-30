@@ -110,8 +110,8 @@ pipeline {
 
                 // Copying files to bastion server
                 sh """
-                scp -i /var/lib/jenkins/AWS.pem ../terraform_es/elasticsearch_ip.txt ubuntu@${bastionIp}:/home/ubuntu/
-                scp -i /var/lib/jenkins/AWS.pem ../terraform_es/bastion_ip.txt ubuntu@${bastionIp}:/home/ubuntu/
+                // scp -i /var/lib/jenkins/AWS.pem ../terraform_es/elasticsearch_ip.txt ubuntu@${bastionIp}:/home/ubuntu/
+                // scp -i /var/lib/jenkins/AWS.pem ../terraform_es/bastion_ip.txt ubuntu@${bastionIp}:/home/ubuntu/
                 scp -i /var/lib/jenkins/AWS.pem /var/lib/jenkins/AWS.pem ubuntu@${bastionIp}:/home/ubuntu/
                 ssh -i /var/lib/jenkins/AWS.pem ubuntu@${bastionIp} 'sudo chmod 400 /home/ubuntu/AWS.pem'
                 """
