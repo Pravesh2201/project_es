@@ -50,8 +50,4 @@
         state: link
       notify: Restart Nginx
 
-  handlers:
-    - name: Restart Nginx
-      systemd:
-        name: nginx
-        state: restarted
+
