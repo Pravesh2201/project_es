@@ -12,6 +12,14 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+resource "aws_route_table" "main" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${var.vpc_name}-route-table"
+  }
+}
+
 resource "aws_route" "peer_route" {
   count                   = var.peer_cidr_block != "" ? 1 : 0  # Only create if peer CIDR is provided
   route_table_id         = aws_route_table.main.id
