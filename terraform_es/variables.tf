@@ -6,6 +6,6 @@ variable "key_name" {
 
 variable "associate_public_ip_address" {
   type = bool
-  default = bastion
+  default = true
   
 }
