@@ -50,8 +50,9 @@ pipeline {
                    dir('terraform_es') {
                        sh """
                        terraform apply -auto-approve -lock=false
-                       terraform output -raw IP_Public_Bastion > bastion_ip.txt
-                       terraform output -raw IP_elasticsearch > elasticsearch_ip.txt
+                    
+                       terraform output -raw IP_Public_Bastion > /var/lib/jenkins/workspace/project_es/bastion_ip.txt
+                       terraform output -raw IP_elasticsearch > /var/lib/jenkins/workspace/project_es/elasticsearch_ip.txt
 
                        
                        """
