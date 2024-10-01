@@ -60,6 +60,12 @@ pipeline {
                    }
                 
             }
+            post {
+                    always {
+                    // Cleanup workspace after the build destroy
+                        cleanWs()
+                    }
+                }
         }
         stage('Approval for Destroy') {
             when {
@@ -87,14 +93,7 @@ pipeline {
                     }
                 }
             }
-            stage('Clean Workspace') {
-                post {
-                    always {
-                    // Cleanup workspace after the build destroy
-                        cleanWs()
-                    }
-                }
-            }
+
             
             stage('Ansible Playbook Execution') {
                 when {
