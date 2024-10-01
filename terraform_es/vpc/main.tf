@@ -35,6 +35,9 @@ resource "aws_route_table" "public_rt" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
+  tags = {
+    Name = "Public_RT"
+  }
 }
 
 # Associate Public Route Table with Public Subnet
@@ -61,6 +64,9 @@ resource "aws_route_table" "private_rt" {
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat_gw.id
+  }
+tags = {
+    Name = "Private_RT"
   }
 }
 
