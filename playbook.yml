@@ -1,9 +1,9 @@
 ---
 - hosts: bastion
   become: true
-  # vars:
-  #   bastionIp: "{{ bastionIp }}" 
-  #   elasticsearchIp: "{{ elasticsearchIp }}"
+  vars:
+    bastionIp: "{{ lookup('file', 'bastion_ip.txt') }}"
+    elasticsearchIp: "{{ lookup('file', 'elasticsearch_ip.txt') }}"
   roles:
     - nginx
 
