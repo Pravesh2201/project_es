@@ -60,12 +60,12 @@ pipeline {
                    }
                 
             }
-            post {
-                    always {
-                    // Cleanup workspace after the build destroy
-                        cleanWs()
-                    }
-                }
+            // post {
+            //         always {
+            //         // Cleanup workspace after the build destroy
+            //             cleanWs()
+            //         }
+            //     }
         }
         stage('Approval for Destroy') {
             when {
