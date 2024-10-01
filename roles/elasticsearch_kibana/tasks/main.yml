@@ -128,10 +128,7 @@
 #   when: ansible_os_family == "RedHat"
 
 ---
-- name: Install Elasticsearch, Kibana, and Logstash on Debian-based systems
-  hosts: all
-  become: yes
-  tasks:
+
 
     - name: Ensure wget is installed
       apt:
