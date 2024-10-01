@@ -136,10 +136,16 @@
         state: present
         update_cache: yes
 
+    # - name: Add Elasticsearch GPG key
+    #   command: wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+    #   args:
+    #     warn: false
+
     - name: Add Elasticsearch GPG key
       command: wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
       args:
-        warn: false
+        _uses_shell: true
+
 
     - name: Install apt-transport-https
       apt:
