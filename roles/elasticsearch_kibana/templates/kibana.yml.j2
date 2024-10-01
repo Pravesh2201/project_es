@@ -16,6 +16,12 @@ server.host: "0.0.0.0"
 # This setting cannot end in a slash.
 #server.basePath: ""
 
+
+#server.publicBaseUrl: ""
+server.basePath: "/kibana"
+server.rewriteBasePath: true
+
+
 # Specifies whether Kibana should rewrite requests that are prefixed with
 # `server.basePath` or require that they are rewritten by your reverse proxy.
 # Defaults to `false`.
@@ -184,9 +190,7 @@ pid.file: /run/kibana/kibana.pid
 #unifiedSearch.autocomplete.valueSuggestions.terminateAfter: 100000
 
 
-#server.publicBaseUrl: ""
-server.basePath: "/kibana"
-server.rewriteBasePath: true
+
 
 
 
