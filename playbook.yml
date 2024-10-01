@@ -2,8 +2,8 @@
 - hosts: bastion
   become: true
   vars:
-    bastionIp: "{{ lookup('file', 'bastion_ip.txt') }}"
-    elasticsearchIp: "{{ lookup('file', 'elasticsearch_ip.txt') }}"
+    bastionIp: "{{ lookup('file', '/var/lib/jenkins/workspace/project_es/terraform_es/bastion_ip.txt') }}"
+    elasticsearchIp: "{{ lookup('file', '/var/lib/jenkins/workspace/project_es/terraform_es/elasticsearch_ip.txt') }}"
   roles:
     - nginx
 
