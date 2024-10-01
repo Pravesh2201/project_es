@@ -9,5 +9,7 @@
 
 - hosts: elasticsearch
   become: true
+  vars:
+    elasticsearchIp: "{{ lookup('file', '/var/lib/jenkins/workspace/project_es/terraform_es/elasticsearch_ip.txt') }}"
   roles:
     - elasticsearch_kibana
