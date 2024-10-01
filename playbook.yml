@@ -1,9 +1,9 @@
 ---
 - hosts: bastion
   become: true
-  vars:
-    bastionIp: "{{ bastionIp }}" 
-    elasticsearchIp: "{{ elasticsearchIp }}"
+  # vars:
+  #   bastionIp: "{{ bastionIp }}" 
+  #   elasticsearchIp: "{{ elasticsearchIp }}"
   roles:
     - nginx
 
