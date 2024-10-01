@@ -20,7 +20,7 @@ server {
     }
     # Proxy for Elasticsearch (port 9200)
     location /elasticsearch/ {
-        proxy_pass http://{ elasticsearchIp }}:9200/;
+        proxy_pass http://{{ elasticsearchIp }}:9200/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
