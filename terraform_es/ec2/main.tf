@@ -16,7 +16,7 @@ root_block_device {
   }
 }
 
-# Private EC2 Instance (Tool)
+# Private EC2 Instance for elsaticsearch
 resource "aws_instance" "private_ec2" {
   ami           = "ami-0a0e5d9c7acc336f1"
   instance_type = "t2.medium"
@@ -28,6 +28,6 @@ resource "aws_instance" "private_ec2" {
   }
 
   tags = {
-    Name = "Private EC2 (Tool)"
+    Name = "ElasticSearch"
   }
 }
