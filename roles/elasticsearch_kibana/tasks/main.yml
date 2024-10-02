@@ -146,24 +146,24 @@
     state: present
     update_cache: yes
 
-- name: Add Elasticsearch APT repository for version 7.10
+- name: Add Elasticsearch APT repository for version 8.15
   apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main"
     state: present
     filename: elastic-7.x
 
-- name: Update apt cache and install Elasticsearch 7.10
+- name: Update apt cache and install Elasticsearch 8.15
   apt:
-    name: elasticsearch=7.10.0
+    name: elasticsearch=8.15.0
     state: present
     update_cache: yes
   notify:
     - restart elasticsearch
 
-- name: Install Kibana 7.10 and Logstash
+- name: Install Kibana 8.15 and Logstash
   apt:
     name:
-      - kibana=7.10.0
+      - kibana=8.15.0
       - logstash
     state: present
     update_cache: yes
