@@ -148,9 +148,9 @@
 
 - name: Add Elasticsearch APT repository for version 8.15
   apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main"
+    repo: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main"
     state: present
-    filename: elastic-7.x
+    filename: elastic-8.x
 
 - name: Update apt cache and install Elasticsearch 8.15
   apt:
