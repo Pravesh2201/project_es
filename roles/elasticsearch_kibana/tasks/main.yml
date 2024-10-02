@@ -129,87 +129,85 @@
 
 ---
 
+- name: Ensure wget is installed
+  apt:
+    name: wget
+    state: present
+    update_cache: yes
 
-    - name: Ensure wget is installed
-      apt:
-        name: wget
-        state: present
-        update_cache: yes
+- name: Add Elasticsearch GPG key
+  command: wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+  args:
+    _uses_shell: true
 
+- name: Install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+    update_cache: yes
 
-    - name: Add Elasticsearch GPG key
-      command: wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-      args:
-        _uses_shell: true
+- name: Add Elasticsearch APT repository for version 7.10
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main"
+    state: present
+    filename: elastic-7.x
 
+- name: Update apt cache and install Elasticsearch 7.10
+  apt:
+    name: elasticsearch=7.10.0
+    state: present
+    update_cache: yes
+  notify:
+    - restart elasticsearch
 
-    - name: Install apt-transport-https
-      apt:
-        name: apt-transport-https
-        state: present
-        update_cache: yes
+- name: Install Kibana 7.10 and Logstash
+  apt:
+    name:
+      - kibana=7.10.0
+      - logstash
+    state: present
+    update_cache: yes
+  notify:
+    - restart kibana
 
-    - name: Add Elasticsearch APT repository
-      apt_repository:
-        repo: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main"
-        state: present
-        filename: elastic-8.x
+- name: Template kibana.yml
+  template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+    mode: '0644'
+  notify:
+    - restart kibana
 
-    - name: Update apt cache and install Elasticsearch
-      apt:
-        name: elasticsearch
-        state: present
-        update_cache: yes
+- name: Template elasticsearch.yml
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    mode: '0644'
+  notify:
+    - restart elasticsearch
 
-    - name: Install Kibana and Logstash
-      apt:
-        name:
-          - kibana
-          - logstash
-        state: present
-        update_cache: yes
+- name: Start Elasticsearch service
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: yes
 
-    - name: Template kibana.yml
-      template:
-        src: kibana.yml.j2
-        dest: /etc/kibana/kibana.yml
-        mode: '0644'
+- name: Start Kibana service
+  systemd:
+    name: kibana
+    state: started
+    enabled: yes
 
-    - name: Template elasticsearch.yml
-      template:
-        src: elasticsearch.yml.j2
-        dest: /etc/elasticsearch/elasticsearch.yml
-        mode: '0644'
+- name: Check the status of Kibana and Elasticsearch
+  command: systemctl status {{ item }}
+  with_items:
+    - kibana
+    - elasticsearch
+  register: service_status
+  ignore_errors: yes
 
-    - name: Start Elasticsearch service
-      systemd:
-        name: elasticsearch
-        state: started
-        enabled: yes
+- name: Display status of Kibana and Elasticsearch services
+  debug:
+    msg: "{{ service_status.results | map(attribute='stdout_lines') | list }}"
 
-    - name: Start Kibana service
-      systemd:
-        name: kibana
-        state: started
-        enabled: yes
-
-    - name: Check the status of Kibana and Elasticsearch
-      command: systemctl status {{ item }}
-      with_items:
-        - kibana
-        - elasticsearch
-      register: service_status
-      ignore_errors: yes
-
-    - name: Restart Elasticsearch and Kibana services (optional)
-      systemd:
-        name: "{{ item }}"
-        state: restarted
-      with_items:
-        - elasticsearch
-        - kibana
-
-    - name: Display status of Kibana and Elasticsearch services
-      debug:
-        msg: "{{ service_status.results | map(attribute='stdout_lines') | list }}"
 
