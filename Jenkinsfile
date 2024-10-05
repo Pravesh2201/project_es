@@ -76,7 +76,7 @@ pipeline {
         }
                 
            
-        }
+    
         stage('Approval for Destroy') {
             when {
                 expression { params.ACTION == 'destroy' }
