@@ -11,6 +11,9 @@ pipeline {
     }
 
     stages {
+        when {
+                expression { params.ACTION == 'apply' }
+            }
         stage('Checkout') {
             steps {
                 // Check out the repository with Terraform code
@@ -20,6 +23,9 @@ pipeline {
         }
 
     stage('Terraform Init') {
+        when {
+                expression { params.ACTION == 'apply' }
+            }
             steps {
                 dir('terraform_es') {
 
