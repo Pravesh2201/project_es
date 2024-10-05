@@ -36,6 +36,9 @@ pipeline {
         }
 
         stage('Terraform Plan') {
+           when {
+                    expression { params.ACTION == 'apply' }
+                }
             steps {
                    dir('terraform_es') {
                        sh 'terraform plan -lock=false'
@@ -45,39 +48,7 @@ pipeline {
         }
         
 
-        // stage('Terraform Apply') {
-        //     steps {
-        //            dir('terraform_es') {
-        //                sh """
-        //                terraform apply -auto-approve -lock=false
-                    
-        //                terraform output -raw IP_Public_Bastion > bastion_ip.txt
-        //                terraform output -raw IP_elasticsearch > elasticsearch_ip.txt
-
-                       
-        //                """
-
-        //            }
-        //     }
-
-               stage('Terraform Apply') {
-            when {
-                expression { params.ACTION == 'apply' }
-            }
-            steps {
-                dir('terraform_es') {
-                    sh '''
-                        terraform apply -auto-approve -lock=false
-                        terraform output -raw IP_Public_Bastion > bastion_ip.txt
-                        terraform output -raw IP_elasticsearch > elasticsearch_ip.txt
-                    '''
-                }
-            }
-        }
-                
-           
-    
-        stage('Approval for Destroy') {
+         stage('Approval for Destroy') {
             when {
                 expression { params.ACTION == 'destroy' }
             }
@@ -87,7 +58,7 @@ pipeline {
             }
         }
 
-            stage('Terraform Destroy') {
+        stage('Terraform Destroy') {
                 when {
                     expression { params.ACTION == 'destroy' }
                 }
@@ -105,7 +76,7 @@ pipeline {
             }
 
             
-            stage('Ansible Playbook Execution') {
+      stage('Ansible Playbook Execution') {
                 when {
                     expression { params.ACTION == 'apply' }
                 }
