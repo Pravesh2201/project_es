@@ -22,8 +22,8 @@ pipeline {
             }
         }
 
-    stage('Terraform Init') {
-        when {
+        stage('Terraform Init') {
+           when {
                 expression { params.ACTION == 'apply' }
             }
             steps {
@@ -41,8 +41,8 @@ pipeline {
             }
         }
 
-    stage('Terraform Plan') {
-        when {
+        stage('Terraform Plan') {
+           when {
                 expression { params.ACTION == 'apply' }
             }
             steps {
@@ -53,7 +53,7 @@ pipeline {
             }
         }
 
-      stage('Terraform Apply') {
+        stage('Terraform Apply') {
             when {
                 expression { params.ACTION == 'apply' }
             }
@@ -69,8 +69,8 @@ pipeline {
         }
         
 
-      stage('Approval for Destroy') {
-         when {
+        stage('Approval for Destroy') {
+          when {
                 expression { params.ACTION == 'destroy' }
             }
             steps {
@@ -79,7 +79,7 @@ pipeline {
             }
         }
 
-      stage('Terraform Destroy') {
+        stage('Terraform Destroy') {
                 when {
                     expression { params.ACTION == 'destroy' }
                 }
@@ -97,7 +97,7 @@ pipeline {
             }
 
             
-      stage('Ansible Playbook Execution') {
+        stage('Ansible Playbook Execution') {
                 when {
                     expression { params.ACTION == 'apply' }
                 }
