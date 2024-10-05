@@ -45,24 +45,36 @@ pipeline {
         }
         
 
-        stage('Terraform Apply') {
-            when {
-                expression { params.ACTION == 'apply' }
-            steps {
-                   dir('terraform_es') {
-                       sh """
-                       terraform apply -auto-approve -lock=false
+        // stage('Terraform Apply') {
+        //     steps {
+        //            dir('terraform_es') {
+        //                sh """
+        //                terraform apply -auto-approve -lock=false
                     
-                       terraform output -raw IP_Public_Bastion > bastion_ip.txt
-                       terraform output -raw IP_elasticsearch > elasticsearch_ip.txt
+        //                terraform output -raw IP_Public_Bastion > bastion_ip.txt
+        //                terraform output -raw IP_elasticsearch > elasticsearch_ip.txt
 
                        
-                       """
+        //                """
 
-                   }
+        //            }
+        //     }
+
+               stage('Terraform Apply') {
+            when {
+                expression { params.ACTION == 'apply' }
             }
+            steps {
+                dir('terraform_es') {
+                    sh '''
+                        terraform apply -auto-approve -lock=false
+                        terraform output -raw IP_Public_Bastion > bastion_ip.txt
+                        terraform output -raw IP_elasticsearch > elasticsearch_ip.txt
+                    '''
+                }
+            }
+        }
                 
-            }
            
         }
         stage('Approval for Destroy') {
