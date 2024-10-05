@@ -36,11 +36,29 @@ pipeline {
         }
 
         stage('Terraform Plan') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
             steps {
                    dir('terraform_es') {
                        sh 'terraform plan -lock=false'
                    }
 
+            }
+        }
+
+        stage('Terraform Apply') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps {
+                dir('terraform_es') {
+                    sh '''
+                        terraform apply -auto-approve -lock=false
+                        terraform output -raw IP_Public_Bastion > bastion_ip.txt
+                        terraform output -raw IP_elasticsearch > elasticsearch_ip.txt
+                    '''
+                }
             }
         }
         
