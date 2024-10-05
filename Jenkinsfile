@@ -46,6 +46,8 @@ pipeline {
         
 
         stage('Terraform Apply') {
+            when {
+                expression { params.ACTION == 'apply' }
             steps {
                    dir('terraform_es') {
                        sh """
@@ -58,6 +60,7 @@ pipeline {
                        """
 
                    }
+            }
                 
             }
            
