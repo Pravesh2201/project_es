@@ -36,9 +36,6 @@ pipeline {
         }
 
         stage('Terraform Plan') {
-           when {
-                    expression { params.ACTION == 'apply' }
-                }
             steps {
                    dir('terraform_es') {
                        sh 'terraform plan -lock=false'
