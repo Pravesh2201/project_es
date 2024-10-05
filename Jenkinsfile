@@ -11,11 +11,11 @@ pipeline {
     }
 
     stages {
-        when {
+        stage('Checkout') {
+           when {
                 expression { params.ACTION == 'apply' }
             }
-        stage('Checkout') {
-            steps {
+             steps {
                 // Check out the repository with Terraform code
                 git branch: 'main', 
                     url: 'https://github.com/Pravesh2201/project_es.git'
