@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage('Terraform Init') {
+    stage('Terraform Init') {
             steps {
                 dir('terraform_es') {
 
@@ -35,8 +35,8 @@ pipeline {
             }
         }
 
-        stage('Terraform Plan') {
-            when {
+    stage('Terraform Plan') {
+        when {
                 expression { params.ACTION == 'apply' }
             }
             steps {
@@ -47,7 +47,7 @@ pipeline {
             }
         }
 
-        stage('Terraform Apply') {
+      stage('Terraform Apply') {
             when {
                 expression { params.ACTION == 'apply' }
             }
@@ -63,8 +63,8 @@ pipeline {
         }
         
 
-         stage('Approval for Destroy') {
-            when {
+      stage('Approval for Destroy') {
+         when {
                 expression { params.ACTION == 'destroy' }
             }
             steps {
@@ -73,7 +73,7 @@ pipeline {
             }
         }
 
-        stage('Terraform Destroy') {
+      stage('Terraform Destroy') {
                 when {
                     expression { params.ACTION == 'destroy' }
                 }
